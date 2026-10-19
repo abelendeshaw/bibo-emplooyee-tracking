@@ -23,6 +23,11 @@ mod windows;
 #[cfg(target_os = "windows")]
 pub use windows::*;
 
+#[cfg(target_os = "linux")]
+mod linux;
+#[cfg(target_os = "linux")]
+pub use linux::*;
+
 // ---------- shared types ----------
 
 /// Permission state reported to the UI (see docs/03-macos-permissions.md). On
@@ -93,6 +98,7 @@ pub static KEY_PRESS_COUNT: std::sync::atomic::AtomicU64 = std::sync::atomic::At
 
 /// The active foreground window, or `None` if there isn't one / it can't be read.
 /// `active-win-pos-rs` is cross-platform (macOS + Windows), so this lives here.
+#[cfg(any(target_os = "macos", target_os = "windows"))]
 pub fn active_window() -> Option<ActiveWindowInfo> {
     match active_win_pos_rs::get_active_window() {
         Ok(w) => {

@@ -196,8 +196,14 @@ pub fn run() {
             // Start the trackers, keyboard counter, screenshots, retention cleanup.
             let shots_dir = data_dir.join("screenshots");
             trackers::start(db.clone(), control.clone());
+            #[cfg(not(target_os = "linux"))]
             trackers::start_keyboard(db.clone(), control.clone());
+            #[cfg(not(target_os = "linux"))]
             trackers::start_screenshots(db.clone(), control.clone(), shots_dir);
+            // GNOME ScreenCast requires a separate user-authorized capture adapter.
+            // Never fall back to xcap on Wayland until a portal grant is available.
+            #[cfg(target_os = "linux")]
+            let _ = shots_dir;
             trackers::start_cleanup(db.clone(), control.clone());
 
             // Start the local ingest server for the browser extension.

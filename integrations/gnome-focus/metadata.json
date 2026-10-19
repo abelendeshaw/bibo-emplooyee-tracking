@@ -1,0 +1,10 @@
+{
+  "uuid": "focus@workforce-intelligence.local",
+  "name": "Workforce Intelligence Focus Bridge",
+  "description": "Opt-in GNOME Wayland focused app ID bridge; no window titles or keystrokes.",
+  "shell-version": [
+    "46",
+    "47",
+    "48"
+  ]
+}
