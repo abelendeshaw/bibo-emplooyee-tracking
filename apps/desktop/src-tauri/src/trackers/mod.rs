@@ -297,7 +297,7 @@ const SHOT_QUALITIES: [f32; 5] = [55.0, 45.0, 35.0, 25.0, 20.0];
 /// result that fits SCREENSHOT_MAX_BYTES. If even the floor (smallest dims +
 /// lowest quality) exceeds the cap, the smallest encoding produced is returned.
 /// Returns the encoded bytes plus the final (width, height).
-fn compress_to_webp(img: &xcap::image::RgbaImage) -> (Vec<u8>, u32, u32) {
+pub(crate) fn compress_to_webp(img: &xcap::image::RgbaImage) -> (Vec<u8>, u32, u32) {
     use xcap::image::imageops::{self, FilterType};
 
     let mut smallest: Option<(Vec<u8>, u32, u32)> = None;

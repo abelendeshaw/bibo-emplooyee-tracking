@@ -59,6 +59,9 @@ pub async fn fetch_privacy_apps_or_baked() -> Vec<sync::client::PrivacyAppCatego
     }
 }
 
+#[cfg(target_os = "linux")]
+mod linux_screenshots;
+
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
     // Sentry error reporting for the Rust core. Held for the whole process (drop =
@@ -203,7 +206,7 @@ pub fn run() {
             // GNOME ScreenCast requires a separate user-authorized capture adapter.
             // Never fall back to xcap on Wayland until a portal grant is available.
             #[cfg(target_os = "linux")]
-            let _ = shots_dir;
+            linux_screenshots::start(db.clone(), control.clone(), settings_state.clone(), shots_dir);
             trackers::start_cleanup(db.clone(), control.clone());
 
             // Start the local ingest server for the browser extension.

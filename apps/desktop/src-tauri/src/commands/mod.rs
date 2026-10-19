@@ -255,7 +255,10 @@ pub fn capture_now(
         .app_data_dir()
         .map_err(err)?
         .join("screenshots");
-    Ok(crate::trackers::capture_once(&db, &dir, &control))
+    #[cfg(target_os = "linux")]
+    { Ok(crate::linux_screenshots::capture_once(&db, &dir, &control)) }
+    #[cfg(not(target_os = "linux"))]
+    { Ok(crate::trackers::capture_once(&db, &dir, &control)) }
 }
 
 // ---------- dashboard ----------
